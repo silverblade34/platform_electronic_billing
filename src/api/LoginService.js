@@ -12,5 +12,5 @@ export function usernameAvailabilityApi(username, token) {
 }
 
 export function authLoginApi(data) {
-    return axios.post(`${baseURL}api/validate-user/`, data)
+    return axios.post(`${baseURL}/api/validate-user/`, data)
 }
