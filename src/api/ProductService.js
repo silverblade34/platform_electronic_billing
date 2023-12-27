@@ -2,32 +2,32 @@ import axiosInstance from '@/config/http.config';
 
 const baseURL = process.env.VUE_APP_BASE_URL;
 
-export function findAllCustomerApi(token) {
-    return axiosInstance.get(`${baseURL}/client/`, {
+export function findAllProductsApi(token) {
+    return axiosInstance.get(`${baseURL}/product/`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     });
 }
 
-export function createCustomerApi(data, token) {
-    return axiosInstance.post(`${baseURL}/client/`, data, {
+export function createProductsApi(data, token) {
+    return axiosInstance.post(`${baseURL}/product/`, data, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     })
 }
 
-export function updateCustomerApi(id, data, token) {
-    return axiosInstance.put(`${baseURL}/client/${id}/`, data, {
+export function updateProductsApi(id, data, token) {
+    return axiosInstance.put(`${baseURL}/product/${id}/`, data, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
     })
 }
 
-export function deleteCustomerApi(id, token) {
-    return axiosInstance.delete(`${baseURL}/client/${id}/`, {
+export function deleteProductsApi(id, token) {
+    return axiosInstance.delete(`${baseURL}/product/${id}/`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },

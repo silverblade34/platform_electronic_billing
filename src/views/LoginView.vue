@@ -6,7 +6,7 @@
           <div class="w-full">
             <div v-if="statusError" class="flex justify-center">
               <v-alert color="#FF5250" theme="dark" icon="mdi-alert-circle" density="compact" closable
-                class="max-w-[25rem]" border>
+                class="max-w-[25rem]" border @click:close="updateStatusError">
                 {{ messageError }}
               </v-alert>
             </div>
@@ -45,11 +45,11 @@ export default {
     const router = useRouter();
 
     const onValidateLogin = (data) => {
-      console.log(data)
       authLoginApi(data)
         .then(response => {
           const user = response.data.data
           store.commit('setUsername', user.username);
+          store.commit('setRol', user.rol);
           store.commit('setToken', user.token);
           store.commit('setIsAuthenticated', true);
           router.push('/');
@@ -77,7 +77,12 @@ export default {
         });
     }
 
+    const updateStatusError = () => {
+      statusError.value = false
+    }
+
     return {
+      updateStatusError,
       onValidateLogin,
       messageError,
       statusError

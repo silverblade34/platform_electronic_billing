@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-between">
-        <h1 class="font-medium lg:text-2xl text-xl title_views text-gray-500">Clientes</h1>
-        <ModalCreateCustomerVue @create-item="onCreateItem"/>
+        <h1 class="font-medium lg:text-2xl text-xl text-gray-500">Clientes</h1>
+        <ModalCreateCustomerVue @create-item="onCreateItem" />
     </div>
     <div class="py-5">
         <TableCustomerVue :desserts="dataCustomer" @edit-item="onEditItem" @delete-item="onDeleteItem" />
@@ -36,18 +36,16 @@ export default ({
 
         const loadData = async () => {
             const responseCustomer = await findAllCustomerApi(store.state.token)
-            console.log(responseCustomer)
-            dataCustomer.value = responseCustomer.data.data
+            dataCustomer.value = responseCustomer.data
         }
 
         const onCreateItem = async (data) => {
-            console.log(data)
-            if (data.ruc != "" && data.businessName != "") {
+            if (data.document_type != "" && data.document_number != "") {
                 await createCustomerApi(data, store.state.token)
-                    .then(response => {
+                    .then(() => {
                         basicAlert(() => {
                             loadData()
-                        }, 'success', 'Logrado', response.data.message)
+                        }, 'success', 'Logrado', "Se ha creado correctamente")
                     })
                     .catch(error => {
                         basicAlert(() => { }, 'error', 'Error', error.message)
@@ -64,12 +62,12 @@ export default ({
 
         const onUpdateItem = async (data) => {
             dialogEdit.value = false
-            if (data.ruc != "" && data.businessName != "") {
+            if (data.document_type != "" && data.document_number != "") {
                 await updateCustomerApi(itemEdit.value.item.id, data, store.state.token)
                     .then(response => {
                         basicAlert(() => {
                             loadData()
-                        }, 'success', 'Logrado', response.data.message)
+                        }, 'success', 'Logrado', "Se ha editado correctamente")
                     })
                     .catch(error => {
                         basicAlert(() => { }, 'error', 'Error', error.message)
@@ -82,10 +80,10 @@ export default ({
         const onDeleteItem = (item) => {
             confirmBasic(async () => {
                 await deleteCustomerApi(item.item.id, store.state.token)
-                    .then(response => {
+                    .then(() => {
                         basicAlert(() => {
                             loadData()
-                        }, 'success', 'Logrado', response.data.message)
+                        }, 'success', 'Logrado', "Se ha eliminado correctamente")
                     })
                     .catch(error => {
                         basicAlert(() => { }, 'error', 'Error', error.message)

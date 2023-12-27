@@ -8,8 +8,8 @@
                 </div>
                 <v-list density="compact" nav class="pt-10">
                     <router-link to="/home">
-                        <v-list-item @click="selectItem('/home')" prepend-icon="mdi-view-dashboard" title="Home" value="home"
-                            :class="{ 'selected-item': selectedItem === '/home' }"></v-list-item>
+                        <v-list-item @click="selectItem('/home')" prepend-icon="mdi-view-dashboard" title="Home"
+                            value="home" :class="{ 'selected-item': selectedItem === '/home' }"></v-list-item>
                     </router-link>
                     <router-link to="/customers"> <v-list-item @click="selectItem('/customers')" prepend-icon="mdi-domain"
                             title="Clientes" value="customers"
@@ -17,17 +17,30 @@
                     <router-link to="/products"> <v-list-item @click="selectItem('/products')" prepend-icon="mdi-shape-plus"
                             title="Productos" value="products"
                             :class="{ 'selected-item': selectedItem === '/products' }"></v-list-item> </router-link>
+                    <router-link to="/store"> <v-list-item @click="selectItem('/store')" prepend-icon="mdi-factory"
+                            title="Almacén" value="store"
+                            :class="{ 'selected-item': selectedItem === '/store' }"></v-list-item> </router-link>
+                    <router-link to="/establishment"> <v-list-item @click="selectItem('/establishment')"
+                            prepend-icon="mdi-store" title="Establecimiento" value="establishment"
+                            :class="{ 'selected-item': selectedItem === '/establishment' }"></v-list-item> </router-link>
                 </v-list>
             </v-navigation-drawer>
             <v-main class="h-screen bg-slate-50">
                 <div class="w-full bg-white flex justify-between items-center px-3 shadow-sm">
                     <v-btn variant="text" icon="mdi-menu" color="blue-grey-lighten-1" class="cursor-pointer"
                         @click.stop="rail = !rail"></v-btn>
-                    <div class="flex gap-2 items-center">
+                    <div class="flex items-center">
                         <div class="flex items-center text-start text-xs">
                             <v-list>
-                                <v-list-item class="text-start text-xs item-personalizado" :prepend-avatar="avatarPath"
-                                    title="Hola, Juan" subtitle="Administrador">
+                                <v-list-item class="text-start item-personalizado" :prepend-avatar="avatarPath">
+                                    <template v-slot:default>
+                                        <v-row>
+                                            <v-col>
+                                                <div class="text-sm">Hola, {{ username }}</div>
+                                                <div class="caption">{{ rol }}</div>
+                                            </v-col>
+                                        </v-row>
+                                    </template>
                                 </v-list-item>
                             </v-list>
                         </div>
@@ -47,6 +60,7 @@ import { useRoute } from 'vue-router';
 import avatarImage from "@/assets/iconuser_hombre.png";
 import LogoBilling from "@/assets/login/BillingLogo.png";
 import MenuAsPopover from '@/components/general/MenuAsPopover.vue';
+import store from '@/store';
 
 export default {
     components: {
@@ -62,10 +76,14 @@ export default {
         const isMobile = ref(false);
         const drawer = ref(true)
         const rail = ref(true)
+        const rol = ref('')
+        const username = ref('')
         const selectedItem = ref(null)
         const router = useRoute(); // Obtener la ruta actual
 
         onMounted(() => {
+            rol.value = store.state.rol
+            username.value = store.state.username
             const currentRoute = router.fullPath;
             selectedItem.value = currentRoute
             handleResize();
@@ -84,6 +102,8 @@ export default {
             isMobile,
             drawer,
             rail,
+            rol,
+            username,
             selectedItem,
             selectItem
         }

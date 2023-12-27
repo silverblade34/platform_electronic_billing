@@ -2,41 +2,37 @@
     <v-dialog v-model="dialog" width="650" @click:outside="closeItem">
         <v-card>
             <v-toolbar>
-                <span class="px-4 w-full text-center text-blue-400 font-bold title_views">EDITAR CLIENTE</span>
+                <span class="px-4 w-full text-center text-teal-500 font-bold title_views">EDITAR CLIENTE</span>
             </v-toolbar>
             <v-card-text>
                 <v-col cols="12">
-                    <v-text-field variant="outlined" label="Ruc" prepend-inner-icon="mdi-card-account-details" color="blue"
-                        v-model="ruc" counter maxlength="11"></v-text-field>
-                    <v-text-field variant="outlined" label="Razón social" prepend-inner-icon="mdi-domain" color="blue"
-                        v-model="businessName"></v-text-field>
-                    <div class="w-full flex gap-1 items-center">
-                        <div class="w-full">
-                            <v-btn density="compact" class="w-full mb-2 text-none" color="blue-lighten-1" variant="tonal">
-                                OBRAS LIBRES
-                            </v-btn>
-                            <SelectWorksVue :listGroups="itemsAvailable" @list-seleccionados="emitSelectedItemsAvailable"
-                                nameGrupo="Obras libres" />
-                        </div>
-                        <div>
-                            <div>
-                                <v-btn icon="mdi-arrow-right" variant="text" size="small" color="indigo"
-                                    @click.prevent="moveSelectedItemsToAssigned"></v-btn>
-                                <v-tooltip activator="parent" location="top">Agregar</v-tooltip>
-                            </div>
-                            <div>
-                                <v-btn icon="mdi-arrow-left" variant="text" size="small" color="indigo"
-                                    @click.prevent="moveSelectedItemsToAvailable"></v-btn>
-                                <v-tooltip activator="parent" location="top">Quitar</v-tooltip>
-                            </div>
-                        </div>
-                        <div class="w-full">
-                            <v-btn density="compact" class="w-full mb-2 text-none" color="blue-lighten-1" variant="tonal">
-                                OBRAS ASIGNADAS
-                            </v-btn>
-                            <SelectWorksVue :listGroups="itemsAssigned" @list-seleccionados="emitSelectedItemsAssigned"
-                                nameGrupo="Obras asignadas" />
-                        </div>
+                    <v-select variant="outlined" label="Tipo de documento" :items="['DNI', 'RUC']" color="teal"
+                        v-model="document_type" prepend-inner-icon="mdi-format-list-bulleted-type" disabled></v-select>
+                    <v-text-field variant="outlined" label="N° documento" prepend-inner-icon="mdi-barcode" color="teal"
+                        v-model="document_number" counter maxlength="11" @input="customerValidate()" disabled
+                        hide-details></v-text-field>
+                    <span class="text-xs pl-3 pb-3 text-red-400">{{ messageValidate }}</span>
+                    <v-text-field variant="outlined" label="Nombre legal" prepend-inner-icon="mdi-domain" color="teal"
+                        v-model="legal_name"></v-text-field>
+                    <v-text-field variant="outlined" label="Nombre comercial" prepend-inner-icon="mdi-form-textbox"
+                        color="teal" v-model="tradename"></v-text-field>
+                    <div class="grid grid-cols-2 gap-2">
+                        <v-text-field variant="outlined" label="Pais" prepend-inner-icon="mdi-flag" color="teal"
+                            v-model="country"></v-text-field>
+                        <v-text-field variant="outlined" label="Departamento" prepend-inner-icon="mdi-map" color="teal"
+                            v-model="department"></v-text-field>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <v-text-field variant="outlined" label="Provincia" prepend-inner-icon="mdi-map-marker-multiple"
+                            color="teal" v-model="province"></v-text-field>
+                        <v-text-field variant="outlined" label="Distrito" prepend-inner-icon="mdi-map-marker-path"
+                            color="teal" v-model="district"></v-text-field>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <v-text-field variant="outlined" label="Teléfono" prepend-inner-icon="mdi-phone" color="teal"
+                            v-model="phone"></v-text-field>
+                        <v-text-field variant="outlined" label="Correo" prepend-inner-icon="mdi-email" color="teal"
+                            v-model="email"></v-text-field>
                     </div>
                 </v-col>
             </v-card-text>
@@ -54,102 +50,81 @@
 </template>
 <script>
 import { ref, watch } from 'vue';
-import SelectWorksVue from './SelectWorks.vue';
 
 export default {
-    components: {
-        SelectWorksVue
-    },
     props: {
         itemEdit: Object,
         openModal: Boolean
     },
     emits: ['edit-item', 'cancel-item'],
     setup(props, { emit }) {
-        const dataWorksAll = ref([]);
         const dialog = ref(false);
-        const ruc = ref('');
-        const businessName = ref('');
-        const selectedItemsAvailable = ref([]);
-        const selectedItemsAssigned = ref([])
-        const itemsAssigned = ref([])
-        const itemsAvailable = ref([]);
+        const document_type = ref('');
+        const document_number = ref('');
+        const legal_name = ref('');
+        const tradename = ref('');
+        const country = ref('');
+        const department = ref('');
+        const province = ref('');
+        const district = ref('');
+        const phone = ref('');
+        const email = ref('');
 
         watch(() => props.openModal, async (newVal) => {
             dialog.value = newVal
         })
 
         watch(() => props.itemEdit, (newVal) => {
-            const worksAssigned = newVal.item.works ? newVal.item.works : []
+            console.log(newVal)
             if (Object.keys(newVal).length !== 0) {
-                ruc.value = newVal.item.ruc
-                businessName.value = newVal.item.businessName
-                itemsAssigned.value = worksAssigned.map(work => ({ name: work.name }))
+                document_type.value = newVal.item.document_type
+                document_number.value = newVal.item.document_number
+                legal_name.value = newVal.item.legal_name
+                tradename.value = newVal.item.tradename
+                country.value = newVal.item.country
+                department.value = newVal.item.department
+                province.value = newVal.item.province
+                district.value = newVal.item.district
+                phone.value = newVal.item.phone
+                email.value = newVal.item.email
             }
         })
 
 
         const editItem = () => {
-            const idWorksAssigned = itemsAssigned.value.map(workAssigned => {
-                const work = dataWorksAll.value.find(work => work.name == workAssigned.name)
-                return {
-                    workId: work.id
-                }
-            })
             emit("edit-item", {
-                ruc: ruc.value,
-                businessName: businessName.value,
-                selectedWorks: idWorksAssigned
+                "document_type": document_type.value,
+                "document_number": document_number.value,
+                "legal_name": legal_name.value,
+                "tradename": tradename.value,
+                "country": country.value,
+                "department": department.value,
+                "province": province.value,
+                "district": district.value,
+                "phone": phone.value,
+                "email": email.value,
             })
             closeItem();
         }
 
         const closeItem = () => {
-            ruc.value = businessName.value = ""
             emit('cancel-item')
-        }
-
-        const emitSelectedItemsAssigned = (data) => {
-            selectedItemsAssigned.value = data
-        }
-        const emitSelectedItemsAvailable = (data) => {
-            selectedItemsAvailable.value = data
-        }
-        // Asignar grupos de etiqueta
-        const moveSelectedItemsToAssigned = () => {
-            if (selectedItemsAvailable.value.length != 0) {
-                const newItemsAssigned = selectedItemsAvailable.value.map(group => ({ name: group }))
-                itemsAssigned.value.push(...newItemsAssigned)
-                itemsAvailable.value = itemsAvailable.value
-                    .filter((group) => {
-                        return newItemsAssigned.findIndex((groupassigned) => groupassigned.name === group.name) === -1
-                    })
-            }
-        }
-        // Quitar de la asignacion los grupos de etiqueta
-        const moveSelectedItemsToAvailable = () => {
-            if (selectedItemsAssigned.value.length != 0) {
-                const newItemsAvailable = selectedItemsAssigned.value.map(group => ({ name: group }))
-                itemsAvailable.value.push(...newItemsAvailable)
-                itemsAssigned.value = itemsAssigned.value
-                    .filter((group) => {
-                        return newItemsAvailable.findIndex((groupavailable) => groupavailable.name === group.name) === -1
-                    })
-            }
         }
 
         return {
             dialog,
-            ruc,
-            businessName,
+            document_type,
+            document_number,
+            legal_name,
+            tradename,
+            country,
+            department,
+            province,
+            district,
+            phone,
+            email,
             editItem,
-            closeItem,
-            itemsAvailable,
-            itemsAssigned,
-            emitSelectedItemsAssigned,
-            emitSelectedItemsAvailable,
-            moveSelectedItemsToAssigned,
-            moveSelectedItemsToAvailable
+            closeItem
         }
     }
 }
