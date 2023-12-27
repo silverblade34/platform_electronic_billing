@@ -25,7 +25,7 @@
                             :class="{ 'selected-item': selectedItem === '/establishment' }"></v-list-item> </router-link>
                 </v-list>
             </v-navigation-drawer>
-            <v-main class="h-screen bg-slate-50">
+            <v-main class="h-screen bg-slate-50 block">
                 <div class="w-full bg-white flex justify-between items-center px-3 shadow-sm">
                     <v-btn variant="text" icon="mdi-menu" color="blue-grey-lighten-1" class="cursor-pointer"
                         @click.stop="rail = !rail"></v-btn>
