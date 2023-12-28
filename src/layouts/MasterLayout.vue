@@ -7,9 +7,9 @@
                     <span v-if="!rail" class="font-bold text-2xl">Mixercon</span>
                 </div>
                 <v-list density="compact" nav class="pt-10">
-                    <router-link to="/home">
-                        <v-list-item @click="selectItem('/home')" prepend-icon="mdi-view-dashboard" title="Home"
-                            value="home" :class="{ 'selected-item': selectedItem === '/home' }"></v-list-item>
+                    <router-link to="/vouchers">
+                        <v-list-item @click="selectItem('/vouchers')" prepend-icon="mdi-cash-register" title="Comprobantes"
+                            value="vouchers" :class="{ 'selected-item': selectedItem === '/vouchers' }"></v-list-item>
                     </router-link>
                     <router-link to="/customers"> <v-list-item @click="selectItem('/customers')" prepend-icon="mdi-domain"
                             title="Clientes" value="customers"
