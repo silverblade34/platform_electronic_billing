@@ -196,6 +196,7 @@ export default ({
                 const productData = item.product
                 const { product, ...rest } = item;
                 rest.description = productData.description
+                rest.product = productData.id
                 return rest
             })
         }

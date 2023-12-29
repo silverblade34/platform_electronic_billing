@@ -55,6 +55,7 @@ export default ({
         }
 
         const updateVoucher = (data) => {
+            console.log(data)
             confirmBasic(async () => {
                 await updateVoucherApi(itemEdit.value.id, data, store.state.token)
                     .then(() => {
