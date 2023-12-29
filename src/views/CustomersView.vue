@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between">
-        <h1 class="font-medium lg:text-2xl text-xl text-gray-500">Clientes</h1>
+        <h1 class="font-bold lg:text-2xl text-xl text-gray-400">Clientes</h1>
         <ModalCreateCustomerVue @create-item="onCreateItem" />
     </div>
     <div class="py-5">

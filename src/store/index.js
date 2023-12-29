@@ -7,7 +7,7 @@ export default createStore({
         isAuthenticated: false,
         username: '',
         token: '',
-        rol: ''
+        rol: '',
     },
     getters: {
 

@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-between">
-        <h1 class="font-medium lg:text-2xl text-xl title_views text-gray-500">Establecimiento</h1>
+        <h1 class="font-bold lg:text-2xl text-xl text-gray-400">Establecimiento</h1>
         <ModalCreateEstablishment @create-item="onCreateItem" />
     </div>
     <div class="py-5">

@@ -9,7 +9,6 @@ export default {
 }
 </script>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@500&family=Montserrat:wght@400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap');
 
 * {
@@ -17,14 +16,14 @@ export default {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   padding: 0;
   margin: 0;
   box-sizing: border-box;
 }
 
 #app {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   color: #2c3e50;
 }
 

@@ -3,6 +3,9 @@
         <template v-slot:[`item.date_created`]="{ item }">
             {{ formatCreatedAt(item.date_created) }}
         </template>
+        <template v-slot:[`item.state_sunat`]="{ item }">
+            <v-chip color="indigo">{{ item.state_sunat }}</v-chip>
+        </template>
         <template v-slot:[`item.actions`]="{ item }">
             <div class="flex gap-1">
                 <span @click="editItem(item)">
@@ -31,11 +34,13 @@ export default ({
         return {
             headers: [
                 { title: '#', align: 'start', key: 'id' },
-                { title: 'Cliente', align: 'start', key: 'client' },
-                { title: 'Almacén', align: 'start', key: 'store' },
+                { title: 'Cliente', align: 'start', key: 'client.legal_name' },
+                { title: 'Establecimiento', align: 'start', key: 'establishment.name' },
+                { title: 'Almacén', align: 'start', key: 'store.name' },
+                { title: 'Moneda', align: 'start', key: 'currency' },
                 { title: 'Total', key: 'total' },
-                { title: 'Fecha de creación', align: 'center', key: 'date_created' },
-                { title: 'Estado', key: 'state_sunat' },
+                { title: 'Fecha de emisión', align: 'center', key: 'date_created' },
+                { title: 'Estado en la SUNAT', key: 'state_sunat' },
                 { title: 'Acciones', key: 'actions' },
             ]
         }

@@ -1,5 +1,5 @@
 <template>
-    <v-btn size="small" class="text-none" color="blue" @click="dialog = true"><v-icon icon="mdi-plus"></v-icon>
+    <v-btn size="small" class="text-none" color="indigo-lighten-2" @click="dialog = true"><v-icon icon="mdi-plus"></v-icon>
         Nuevo</v-btn>
     <v-dialog v-model="dialog" width="550" @click:outside="closeItem">
         <v-card>
